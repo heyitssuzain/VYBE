@@ -49,6 +49,11 @@ jobs:
         run: |
           sdkmanager "platforms;android-36" "build-tools;34.0.0" "platform-tools" --sdk_root=$ANDROID_SDK_ROOT
 
+      - name: Setup Gradle (regenerate wrapper)
+        run: |
+          gradle wrapper --gradle-version 8.10 --distribution-type all
+          chmod +x gradlew
+
       - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
@@ -58,18 +63,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-
-      - name: Debug gradlew file
-        run: |
-          echo "=== File exists ==="
-          ls -la gradlew
-          echo "=== First 5 lines ==="
-          head -5 gradlew
-          echo "=== Line endings (hex) ==="
-          head -c 100 gradlew | xxd
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug --no-daemon --stacktrace
