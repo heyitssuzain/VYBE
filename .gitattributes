@@ -1,0 +1,8 @@
+# Ensure gradlew has LF line endings
+gradlew eol=lf
+*.sh eol=lf
+*.gradle eol=lf
+*.kt eol=lf
+*.xml eol=lf
+*.yml eol=lf
+*.yaml eol=lf
