@@ -59,6 +59,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Debug gradlew file
+        run: |
+          echo "=== File exists ==="
+          ls -la gradlew
+          echo "=== First 5 lines ==="
+          head -5 gradlew
+          echo "=== Line endings (hex) ==="
+          head -c 100 gradlew | xxd
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
