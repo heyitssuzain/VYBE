@@ -62,8 +62,18 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Debug gradlew file
+        run: |
+          echo "=== File info ==="
+          file gradlew
+          echo "=== First 5 lines ==="
+          head -5 gradlew
+          echo "=== Line endings ==="
+          od -c gradlew | head -3
+
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        run: |
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
