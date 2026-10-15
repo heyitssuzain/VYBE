@@ -26,15 +26,24 @@ jobs:
           cache: 'gradle'
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v2
-        with:
-          api-level: 36
-          build-tools-version: '34.0.0'
-          cache-key: ${{ runner.os }}-android-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+        run: |
+          # Install Android SDK command line tools
+          mkdir -p $HOME/android-sdk/cmdline-tools
+          cd $HOME/android-sdk/cmdline-tools
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+          unzip -q commandlinetools-linux-11076708_latest.zip
+          mv cmdline-tools latest
+          echo "$HOME/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
+          echo "ANDROID_SDK_ROOT=$HOME/android-sdk" >> $GITHUB_ENV
+          echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
 
       - name: Accept Android SDK Licenses
         run: |
           yes | sdkmanager --licenses --sdk_root=$ANDROID_SDK_ROOT
+
+      - name: Install Android SDK Packages
+        run: |
+          sdkmanager "platforms;android-36" "build-tools;34.0.0" "platform-tools" --sdk_root=$ANDROID_SDK_ROOT
 
       - name: Cache Gradle packages
         uses: actions/cache@v4
