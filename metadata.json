@@ -1,0 +1,6 @@
+{
+  "name": "Aether Music",
+  "description": "Cinematic privacy-first music player with local and free streaming audio",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
